@@ -7,6 +7,7 @@ const MainStrings = {
   searchButtonText: 'Search',
   footerText: 'Created by Sándor Bereczki in 2025 for',
   retry: 'Retry',
+  noResults: 'No results found!',
 };
 
 export default MainStrings;

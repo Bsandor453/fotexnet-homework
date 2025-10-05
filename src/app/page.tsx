@@ -227,41 +227,49 @@ export default function App() {
                 </div>
               ) : (
                 <div className="flex w-full h-full flex-col gap-2 justify-between">
-                  <Row
-                    gutter={[
-                      { xs: 28, sm: 32, md: 36, lg: 40 },
-                      { xs: 20, sm: 24, md: 28, lg: 32 },
-                    ]}
-                    justify="start"
-                  >
-                    {artists.map((artist: Artist) => (
-                      <Col
-                        className="gutter-row"
-                        key={artist.id}
-                        xs={24} // Extra small screen (e.g. Mobile) -> 1 column
-                        sm={12} // Small screen -> 2 column
-                        md={8} // Medium screen -> 3 column
-                        lg={6} // Large screen (e.g. PC) -> 4 column
+                  {artists.length === 0 ? (
+                    <div className="flex w-full h-full justify-center items-center">
+                      <Alert message={Strings.noResults} type="info" showIcon />
+                    </div>
+                  ) : (
+                    <>
+                      <Row
+                        gutter={[
+                          { xs: 28, sm: 32, md: 36, lg: 40 },
+                          { xs: 20, sm: 24, md: 28, lg: 32 },
+                        ]}
+                        justify="start"
                       >
-                        <ArtistCard
-                          name={artist.name}
-                          albumCount={artist.albumCount}
-                          portraitUrl={artist.portrait}
+                        {artists.map((artist: Artist) => (
+                          <Col
+                            className="gutter-row"
+                            key={artist.id}
+                            xs={24} // Extra small screen (e.g. Mobile) -> 1 column
+                            sm={12} // Small screen -> 2 column
+                            md={8} // Medium screen -> 3 column
+                            lg={6} // Large screen (e.g. PC) -> 4 column
+                          >
+                            <ArtistCard
+                              name={artist.name}
+                              albumCount={artist.albumCount}
+                              portraitUrl={artist.portrait}
+                            />
+                          </Col>
+                        ))}
+                      </Row>
+                      <div>
+                        <Pagination
+                          style={paginationStyle}
+                          current={page}
+                          defaultCurrent={1}
+                          total={totalItems}
+                          pageSize={perPage}
+                          onChange={handlePageChange}
+                          onShowSizeChange={handleShowSizeChange}
                         />
-                      </Col>
-                    ))}
-                  </Row>
-                  <div hidden={artists.length === 0}>
-                    <Pagination
-                      style={paginationStyle}
-                      current={page}
-                      defaultCurrent={1}
-                      total={totalItems}
-                      pageSize={perPage}
-                      onChange={handlePageChange}
-                      onShowSizeChange={handleShowSizeChange}
-                    />
-                  </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
             </>

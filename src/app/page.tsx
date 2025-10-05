@@ -183,12 +183,20 @@ export default function App() {
             <>
               <Row
                 gutter={[
-                  { xs: 16, sm: 24, md: 32, lg: 40 },
-                  { xs: 8, sm: 12, md: 16, lg: 20 },
+                  { xs: 28, sm: 32, md: 36, lg: 40 },
+                  { xs: 20, sm: 24, md: 28, lg: 32 },
                 ]}
+                justify="start"
               >
                 {artists.map((artist: Artist) => (
-                  <Col className="gutter-row" key={artist.id} span={6}>
+                  <Col
+                    className="gutter-row"
+                    key={artist.id}
+                    xs={24} // Extra small screen (e.g. Mobile) -> 1 column
+                    sm={12} // Small screen -> 2 column
+                    md={8} // Medium screen -> 3 column
+                    lg={6} // Large screen (e.g. PC) -> 4 column
+                  >
                     <ArtistCard
                       name={artist.name}
                       albumCount={artist.albumCount}

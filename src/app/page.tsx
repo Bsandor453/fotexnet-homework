@@ -131,8 +131,8 @@ export default function App() {
   );
 
   useEffect(() => {
-    void getArtists();
-  }, [getArtists]);
+    void getArtists({ page, perPage });
+  }, [getArtists, page, perPage]);
 
   const handleArtistTypeSelectChange = (type: ArtistType) => {
     setArtistType(type);
@@ -160,11 +160,11 @@ export default function App() {
 
   const handlePageChange = (newPage: number, _newPageSize: number) => {
     setPage(newPage);
-    void getArtists({ artistType, startsWithLetter, search, page: newPage, perPage });
   };
 
   const handleShowSizeChange = (_current: number, size: number) => {
     setPerPage(size);
+    setPage(1);
   };
 
   return (

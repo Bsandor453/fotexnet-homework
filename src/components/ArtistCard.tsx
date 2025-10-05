@@ -13,7 +13,7 @@ export default function ArtistCard({ name, albumCount, portraitUrl }: Props) {
   return (
     <Card
       hoverable
-      className="w-60 transform transition duration-200 ease-in-out hover:scale-110 hover:shadow-xl"
+      className="w-full transform transition duration-200 ease-in-out hover:scale-105 hover:shadow-xl"
       cover={
         <Image
           className="object-cover w-full h-48"

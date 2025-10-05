@@ -27,6 +27,10 @@ const contentStyle: React.CSSProperties = {
   lineHeight: '120px',
   color: '#fff',
   backgroundColor: '#0958d9',
+  paddingBlock: '1.5rem',
+  paddingInline: '3rem',
+  overflowX: 'hidden',
+  overflowY: 'scroll',
 };
 
 const footerStyle: React.CSSProperties = {
@@ -98,7 +102,12 @@ export default function Home() {
         </Header>
         <Content style={contentStyle}>
           <>
-            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+            <Row
+              gutter={[
+                { xs: 16, sm: 24, md: 32, lg: 40 },
+                { xs: 8, sm: 12, md: 16, lg: 20 },
+              ]}
+            >
               {artists.map((artist: Artist) => (
                 <Col className="gutter-row" key={artist.id} span={6}>
                   <ArtistCard

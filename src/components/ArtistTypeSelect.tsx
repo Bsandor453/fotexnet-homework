@@ -13,9 +13,10 @@ const options = artistTypes.map((type) => ({
 
 interface Props {
   onSelectChange?: (value: ArtistType) => void;
+  defaultValue?: ArtistType;
 }
 
-export default function ArtistTypeSelect({ onSelectChange }: Props) {
+export default function ArtistTypeSelect({ defaultValue, onSelectChange }: Props) {
   const handleChange = (value: string) => {
     const selectedType = value as ArtistType;
     onSelectChange?.(selectedType);
@@ -23,6 +24,7 @@ export default function ArtistTypeSelect({ onSelectChange }: Props) {
 
   return (
     <Select
+      defaultValue={defaultValue || undefined}
       showSearch
       placeholder={MainStrings.artistTypeSelectPlaceholder}
       filterOption={(input, option) =>

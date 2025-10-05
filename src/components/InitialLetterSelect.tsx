@@ -38,15 +38,17 @@ const options = letters.map((letter) => ({
 
 interface Props {
   onSelectChange?: (value: string) => void;
+  defaultValue?: string;
 }
 
-export default function InitialLetterSelect({ onSelectChange }: Props) {
+export default function InitialLetterSelect({ defaultValue, onSelectChange }: Props) {
   const handleChange = (value: string) => {
     onSelectChange?.(value);
   };
 
   return (
     <Select
+      defaultValue={defaultValue || undefined}
       showSearch
       placeholder={MainStrings.initialLetterSelectPlaceholder}
       filterOption={(input, option) =>

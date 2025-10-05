@@ -24,6 +24,7 @@ import ArtistTypeSelect from '@/components/ArtistTypeSelect';
 import { ArtistType } from '@/interfaces/ArtistType';
 import InitialLetterSelect from '@/components/InitialLetterSelect';
 import Image from 'next/image';
+import { useQueryParams } from '@/hooks/useQueryParams';
 
 type Artist = ArtistsResponse;
 
@@ -70,24 +71,30 @@ const paginationStyle = {
 };
 
 export default function App() {
+  // Custom hook for URL query param handling
+  const { getParam, setParams } = useQueryParams();
+
   // Dark mode
   const [darkMode, setDarkMode] = useState(false);
 
   // Artists data
   const [artists, setArtists] = useState<Artist[]>([]);
 
-  // Filters
-  const [artistType, setArtistType] = useState<ArtistType>();
-  const [startsWithLetter, setStartsWithLetter] = useState<string>('');
-  const [search, setSearch] = useState<string>('');
+  // Filters (initialized from the URL query params)
+  const [search, setSearch] = useState(getParam('search') ?? '');
+  const [artistType, setArtistType] = useState<ArtistType>(
+    (getParam('artistType') as ArtistType) ?? '',
+  );
+  const [startsWithLetter, setStartsWithLetter] = useState(getParam('startsWithLetter') ?? '');
 
   // Pagination
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(Number(getParam('page')) || 1);
   const [totalItems, setTotalItems] = useState<number>(0);
-  const [perPage, setPerPage] = useState<number>(50);
+  const [perPage, setPerPage] = useState<number>(Number(getParam('perPage')) || 50);
 
   // State
   const [loading, setLoading] = useState<boolean>(false);
+  const [fetchCompleted, setFetchCompleted] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const getArtists = useCallback(
@@ -101,6 +108,7 @@ export default function App() {
       } = {},
     ) => {
       setLoading(true);
+      setFetchCompleted(false);
       setError(null);
 
       const { artistType, startsWithLetter, search, page = 1, perPage } = params;
@@ -129,20 +137,29 @@ export default function App() {
         console.error('Error getting artists:', message);
       } finally {
         setLoading(false);
+        setFetchCompleted(true);
       }
     },
     [],
   );
 
   useEffect(() => {
-    void getArtists({ page, perPage });
+    void getArtists({ artistType, startsWithLetter, search, page, perPage });
+    // Note: Don't want to getArtists when startsWithLetter or search are changed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getArtists, page, perPage]);
 
   const handleArtistTypeSelectChange = (type: ArtistType) => {
+    // Update the URL query param for the artist type
+    setParams({ artistType: type });
+
     setArtistType(type);
   };
 
   const handleInitialLetterSelectChange = (initialLetter: string) => {
+    // Update the URL query param for the initial letter
+    setParams({ startsWithLetter: initialLetter });
+
     setStartsWithLetter(initialLetter);
   };
 
@@ -151,6 +168,9 @@ export default function App() {
   };
 
   const handleSearchButtonClick = () => {
+    // Update the URL query params
+    setParams({ search, artistType, startsWithLetter, page: 1 });
+
     void getArtists({ artistType, startsWithLetter, search, page, perPage });
   };
 
@@ -162,11 +182,17 @@ export default function App() {
     void getArtists({ artistType, startsWithLetter, search, page, perPage });
   };
 
-  const handlePageChange = (newPage: number, _newPageSize: number) => {
+  const handlePageChange = (newPage: number, newPageSize: number) => {
+    // Update the URL query param for the current page and the page size
+    setParams({ page: newPage, perPage: newPageSize });
+
     setPage(newPage);
   };
 
   const handleShowSizeChange = (_current: number, size: number) => {
+    // Update the URL query param for the current page and the page size
+    setParams({ page: 1, perPage: size });
+
     setPerPage(size);
     setPage(1);
   };
@@ -183,13 +209,20 @@ export default function App() {
             <section className="flex flex-row gap-4 justify-between" id="settings">
               <section className="flex flex-row gap-4" id="filters">
                 <div className="w-48">
-                  <ArtistTypeSelect onSelectChange={handleArtistTypeSelectChange} />
+                  <ArtistTypeSelect
+                    defaultValue={artistType}
+                    onSelectChange={handleArtistTypeSelectChange}
+                  />
                 </div>
                 <div className="w-48">
-                  <InitialLetterSelect onSelectChange={handleInitialLetterSelectChange} />
+                  <InitialLetterSelect
+                    defaultValue={startsWithLetter}
+                    onSelectChange={handleInitialLetterSelectChange}
+                  />
                 </div>
                 <div className="w-64">
                   <Input
+                    defaultValue={search}
                     onChange={handleSearchInputChange}
                     size="large"
                     placeholder={Strings.searchInputPlaceholder}
@@ -226,7 +259,10 @@ export default function App() {
                   )}
                 </div>
               ) : (
-                <div className="flex w-full h-full flex-col gap-2 justify-between">
+                <div
+                  className="flex w-full h-full flex-col gap-2 justify-between"
+                  hidden={!fetchCompleted}
+                >
                   {artists.length === 0 ? (
                     <div className="flex w-full h-full justify-center items-center">
                       <Alert message={Strings.noResults} type="info" showIcon />

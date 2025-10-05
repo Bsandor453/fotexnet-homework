@@ -217,7 +217,7 @@ export default function App() {
                           algorithm: darkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
                         }}
                       >
-                        <Alert message="Hiba történt!" type="error" showIcon />
+                        <Alert message={error} type="error" showIcon />
                       </ConfigProvider>
                       <Button onClick={handleRetryButtonClick} size="large">
                         {Strings.retry}

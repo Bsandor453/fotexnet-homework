@@ -1,8 +1,39 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import { Layout } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
+import { fetchArtists } from '@/api/artistsApi';
+import { GetArtistsRequest } from '@/interfaces/request/GetArtistsRequest';
+import { ArtistsResponse } from '@/interfaces/response/ArtistsResponse';
+
+type Artist = ArtistsResponse;
 
 export default function Home() {
+  const [artists, setArtists] = useState<Artist[]>([]);
+
+  useEffect(() => {
+    const getArtists = async () => {
+      const config: GetArtistsRequest = {
+        artistType: 'performer',
+        startsWithLetter: 'B',
+        includeImage: true,
+        search: 'Szabo',
+        page: 1,
+        per_page: 20,
+      };
+
+      try {
+        const response = await fetchArtists(config);
+        setArtists(response.data);
+      } catch (error) {
+        console.error('Error setting artist:', error);
+      }
+    };
+
+    void getArtists();
+  }, []);
+
   const headerStyle: React.CSSProperties = {
     textAlign: 'center',
     color: '#fff',
@@ -30,6 +61,8 @@ export default function Home() {
     width: '100%',
     height: '100%',
   };
+
+  console.log(artists);
 
   return (
     <div className="w-full h-full">

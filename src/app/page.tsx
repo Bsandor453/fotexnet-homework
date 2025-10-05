@@ -11,6 +11,7 @@ import { UserOutlined } from '@ant-design/icons';
 import Strings from '@/strings/MainStrings';
 import ArtistTypeSelect from '@/components/ArtistTypeSelect';
 import { ArtistType } from '@/interfaces/ArtistType';
+import InitialLetterSelect from '@/components/InitialLetterSelect';
 
 type Artist = ArtistsResponse;
 
@@ -58,7 +59,7 @@ export default function Home() {
 
   // Filters
   const [artistType, setArtistType] = useState<ArtistType>();
-  const [startsWithLetter, _setStartsWithLetter] = useState<string>('');
+  const [startsWithLetter, setStartsWithLetter] = useState<string>('');
   const [search, setSearch] = useState<string>('');
 
   // Pagination
@@ -108,6 +109,10 @@ export default function Home() {
     setArtistType(type);
   };
 
+  const handleInitialLetterSelectChange = (initialLetter: string) => {
+    setStartsWithLetter(initialLetter);
+  };
+
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
@@ -132,6 +137,9 @@ export default function Home() {
           <section className="flex flex-row gap-4" id="filters">
             <div className="w-48">
               <ArtistTypeSelect onSelectChange={handleArtistTypeSelectChange} />
+            </div>
+            <div className="w-48">
+              <InitialLetterSelect onSelectChange={handleInitialLetterSelectChange} />
             </div>
             <div className="w-64">
               <Input

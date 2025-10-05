@@ -18,13 +18,17 @@ import { fetchArtists } from '@/api/artistsApi';
 import { GetArtistsRequest } from '@/interfaces/request/GetArtistsRequest';
 import { ArtistsResponse } from '@/interfaces/response/ArtistsResponse';
 import ArtistCard from '@/components/ArtistCard';
-import { UserOutlined } from '@ant-design/icons';
-import Strings from '@/strings/MainStrings';
+import MainStrings from '@/strings/MainStrings';
 import ArtistTypeSelect from '@/components/ArtistTypeSelect';
 import { ArtistType } from '@/interfaces/ArtistType';
 import InitialLetterSelect from '@/components/InitialLetterSelect';
 import Image from 'next/image';
 import { useQueryParams } from '@/hooks/useQueryParams';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutlineOutlined';
+import SearchIcon from '@mui/icons-material/SearchOutlined';
+import ReplayIcon from '@mui/icons-material/ReplayOutlined';
+import WbSunnyIcon from '@mui/icons-material/WbSunnyOutlined';
+import BedtimeIcon from '@mui/icons-material/BedtimeOutlined';
 
 type Artist = ArtistsResponse;
 
@@ -211,13 +215,13 @@ export default function App() {
                 className="flex flex-row flex-wrap items-center gap-x-4 gap-y-2"
                 id="filters"
               >
-                <div className="w-48">
+                <div className="w-64">
                   <ArtistTypeSelect
                     defaultValue={artistType}
                     onSelectChange={handleArtistTypeSelectChange}
                   />
                 </div>
-                <div className="w-48">
+                <div className="w-64">
                   <InitialLetterSelect
                     defaultValue={startsWithLetter}
                     onSelectChange={handleInitialLetterSelectChange}
@@ -228,19 +232,32 @@ export default function App() {
                     defaultValue={search}
                     onChange={handleSearchInputChange}
                     size="large"
-                    placeholder={Strings.searchInputPlaceholder}
-                    prefix={<UserOutlined />}
+                    placeholder={MainStrings.searchInputPlaceholder}
+                    prefix={<DriveFileRenameOutlineIcon fontSize="small" />}
                   />
                 </div>
                 <div>
                   <Button onClick={handleSearchButtonClick} size="large">
-                    {Strings.searchButtonText}
+                    <span className="flex flex-row justify-center items-center gap-2">
+                      <SearchIcon fontSize="small" />
+                      {MainStrings.searchButtonText}
+                    </span>
                   </Button>
                 </div>
               </section>
               <div>
                 <Button onClick={handleDarkModeButtonClick} size="large">
-                  {darkMode ? Strings.setToLightMode : Strings.setToDarkMode}
+                  {darkMode ? (
+                    <span className="flex flex-row justify-center items-center gap-2">
+                      <WbSunnyIcon fontSize="medium" />
+                      {MainStrings.setToLightMode}
+                    </span>
+                  ) : (
+                    <span className="flex flex-row justify-center items-center gap-2">
+                      <BedtimeIcon fontSize="medium" />
+                      {MainStrings.setToDarkMode}
+                    </span>
+                  )}
                 </Button>
               </div>
             </section>
@@ -256,7 +273,8 @@ export default function App() {
                     <div className="flex flex-col gap-4">
                       <Alert message={error} type="error" showIcon />
                       <Button onClick={handleRetryButtonClick} size="large">
-                        {Strings.retry}
+                        <ReplayIcon fontSize="small" />
+                        {MainStrings.retry}
                       </Button>
                     </div>
                   )}
@@ -268,7 +286,7 @@ export default function App() {
                 >
                   {artists.length === 0 ? (
                     <div className="flex w-full h-full justify-center items-center">
-                      <Alert message={Strings.noResults} type="info" showIcon />
+                      <Alert message={MainStrings.noResults} type="info" showIcon />
                     </div>
                   ) : (
                     <>
@@ -316,7 +334,7 @@ export default function App() {
 
           <Footer style={footerStyle(darkMode)}>
             <div className="flex flex-row justify-center items-center gap-2">
-              {Strings.footerText}
+              {MainStrings.footerText}
               <Image
                 className="w-14"
                 draggable={false}

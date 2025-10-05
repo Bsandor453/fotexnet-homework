@@ -1,6 +1,7 @@
 import React from 'react';
 import { Select } from 'antd';
 import MainStrings from '@/strings/MainStrings';
+import AbcIcon from '@mui/icons-material/AbcOutlined';
 
 const letters = [
   'A',
@@ -50,7 +51,12 @@ export default function InitialLetterSelect({ defaultValue, onSelectChange }: Pr
     <Select
       defaultValue={defaultValue || undefined}
       showSearch
-      placeholder={MainStrings.initialLetterSelectPlaceholder}
+      placeholder={
+        <span className="flex flex-row justify-center items-center gap-2">
+          <AbcIcon fontSize="small" />
+          {MainStrings.initialLetterSelectPlaceholder}
+        </span>
+      }
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
       }

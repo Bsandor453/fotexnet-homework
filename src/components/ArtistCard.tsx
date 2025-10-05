@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, theme } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import Image from 'next/image';
+import AlbumIcon from '@mui/icons-material/Album';
 
 interface Props {
   name: string;
@@ -29,7 +30,11 @@ export default function ArtistCard({ name, albumCount, portraitUrl }: Props) {
     >
       <Meta
         title={name}
-        description={<span style={{ color: token.colorTextSecondary }}>Albums: {albumCount}</span>}
+        description={
+          <span style={{ color: token.colorTextSecondary }}>
+            <AlbumIcon fontSize="small" /> Albums: {albumCount}
+          </span>
+        }
       />
     </Card>
   );

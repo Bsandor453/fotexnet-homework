@@ -2,6 +2,7 @@ import React from 'react';
 import { Select } from 'antd';
 import { ArtistType } from '@/interfaces/ArtistType';
 import ArtistTypes from '@/strings/ArtistTypes';
+import PersonIcon from '@mui/icons-material/Person4Outlined';
 import MainStrings from '@/strings/MainStrings';
 
 const artistTypes: ArtistType[] = ['composer', 'performer', 'primary'];
@@ -26,7 +27,12 @@ export default function ArtistTypeSelect({ defaultValue, onSelectChange }: Props
     <Select
       defaultValue={defaultValue || undefined}
       showSearch
-      placeholder={MainStrings.artistTypeSelectPlaceholder}
+      placeholder={
+        <span className="flex flex-row justify-center items-center gap-2">
+          <PersonIcon fontSize="small" />
+          {MainStrings.artistTypeSelectPlaceholder}
+        </span>
+      }
       filterOption={(input, option) =>
         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
       }

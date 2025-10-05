@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Layout } from 'antd';
+import { Col, Layout, Row } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { fetchArtists } from '@/api/artistsApi';
 import { GetArtistsRequest } from '@/interfaces/request/GetArtistsRequest';
@@ -62,13 +62,21 @@ export default function Home() {
     height: '100%',
   };
 
-  console.log(artists);
+  const style: React.CSSProperties = { background: '#0092ff', padding: '8px' };
 
   return (
     <div className="w-full h-full">
       <Layout style={layoutStyle}>
         <Header style={headerStyle}>Header</Header>
-        <Content style={contentStyle}>Content</Content>
+        <Content style={contentStyle}>
+          <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+            {artists.map((artist: Artist) => (
+              <Col className="gutter-row" key={artist.id} span={6}>
+                <div style={style}>{artist.name}</div>
+              </Col>
+            ))}
+          </Row>
+        </Content>
         <Footer style={footerStyle}>Footer</Footer>
       </Layout>
     </div>

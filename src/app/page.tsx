@@ -66,6 +66,7 @@ const paginationStyle = {
   justifyContent: 'center',
   alignItems: 'center',
   marginTop: '2rem',
+  marginBottom: '1rem',
 };
 
 export default function App() {
@@ -225,7 +226,7 @@ export default function App() {
                   )}
                 </div>
               ) : (
-                <>
+                <div className="flex w-full h-full flex-col gap-2 justify-between">
                   <Row
                     gutter={[
                       { xs: 28, sm: 32, md: 36, lg: 40 },
@@ -261,7 +262,7 @@ export default function App() {
                       onShowSizeChange={handleShowSizeChange}
                     />
                   </div>
-                </>
+                </div>
               )}
             </>
           </Content>

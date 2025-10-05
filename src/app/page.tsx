@@ -90,39 +90,42 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
 
   const getArtists = useCallback(
-    async (params?: {
-      artistType?: ArtistType;
-      startsWithLetter?: string;
-      search?: string;
-      page?: number;
-      perPage?: number;
-    }) => {
+    async (
+      params: {
+        artistType?: ArtistType;
+        startsWithLetter?: string;
+        search?: string;
+        page?: number;
+        perPage?: number;
+      } = {},
+    ) => {
       setLoading(true);
       setError(null);
 
+      const { artistType, startsWithLetter, search, page = 1, perPage } = params;
+
       const config: GetArtistsRequest = {
         includeImage: true,
-        ...(params?.artistType && { artistType: params.artistType }),
-        ...(params?.startsWithLetter && { startsWithLetter: params.startsWithLetter }),
-        ...(params?.search && { search: params.search }),
-        ...(params?.page ? { page: params.page } : { page: 1 }),
-        ...(params?.perPage && { per_page: params.perPage }),
+        ...(artistType && { artistType }),
+        ...(startsWithLetter && { startsWithLetter }),
+        ...(search && { search }),
+        page,
+        ...(perPage && { per_page: perPage }),
       };
 
       try {
-        const response = await fetchArtists(config);
+        const { data, pagination } = await fetchArtists(config);
 
-        // Artist data
-        setArtists(response.data);
-
-        // Pagination data
-        const { pagination } = response;
+        setArtists(data);
         setPage(pagination.current_page);
         setTotalItems(pagination.total_items);
       } catch (error: any) {
-        const errorMessage = error.response.data.message;
-        setError(errorMessage);
-        console.error('Error getting artists:', errorMessage);
+        const message =
+          error?.response?.data?.message ??
+          error?.message ??
+          'An unexpected error occurred while retrieving artists.';
+        setError(message);
+        console.error('Error getting artists:', message);
       } finally {
         setLoading(false);
       }

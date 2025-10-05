@@ -13,20 +13,12 @@ export default function ArtistCard({ name, albumCount, portraitUrl }: Props) {
   return (
     <Card
       hoverable
-      style={{
-        width: 240,
-        transition: 'transform 0.2s ease-in-out',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'scale(1.1)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'scale(1)';
-      }}
+      className="w-60 transform transition duration-200 ease-in-out hover:scale-110 hover:shadow-xl"
       cover={
         <Image
+          className="object-cover w-full h-48"
           draggable={false}
-          alt={name + ' portrait'}
+          alt={`${name} portrait`}
           src={portraitUrl}
           width={300}
           height={200}

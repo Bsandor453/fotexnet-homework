@@ -30,19 +30,17 @@ type Artist = ArtistsResponse;
 
 const headerStyle = (darkMode: boolean): React.CSSProperties => ({
   textAlign: 'center',
-  height: 64,
-  paddingInline: 64,
-  lineHeight: '64px',
+  paddingInline: '4rem',
+  lineHeight: 'normal',
   color: '#fff',
+  minHeight: '4rem',
+  height: 'auto',
   backgroundColor: darkMode ? '#1f1f1f' : '#f5f5f5',
-  borderWidth: '0px 0px 1px 0px',
-  borderColor: darkMode ? '#595959' : '#d8d8d8',
+  borderBottom: `1px solid ${darkMode ? '#595959' : '#d8d8d8'}`,
 });
 
 const contentStyle: React.CSSProperties = {
   textAlign: 'center',
-  minHeight: 120,
-  lineHeight: '120px',
   paddingBlock: '1.5rem',
   paddingInline: '3rem',
   overflowX: 'hidden',
@@ -54,8 +52,7 @@ const footerStyle = (darkMode: boolean): React.CSSProperties => ({
   textAlign: 'center',
   color: darkMode ? '#fff' : '#000',
   backgroundColor: darkMode ? '#1f1f1f' : '#f5f5f5',
-  borderWidth: '1px 0px 0px 0px',
-  borderColor: darkMode ? '#595959' : '#d8d8d8',
+  borderTop: `1px solid ${darkMode ? '#595959' : '#d8d8d8'}`,
 });
 
 const layoutStyle = {
@@ -206,8 +203,14 @@ export default function App() {
       <div className="w-full h-full">
         <Layout style={layoutStyle}>
           <Header style={headerStyle(darkMode)}>
-            <section className="flex flex-row gap-4 justify-between" id="settings">
-              <section className="flex flex-row gap-4" id="filters">
+            <section
+              className="h-full py-2 flex flex-row flex-wrap items-center gap-x-4 gap-y-2 justify-between"
+              id="settings"
+            >
+              <section
+                className="flex flex-row flex-wrap items-center gap-x-4 gap-y-2"
+                id="filters"
+              >
                 <div className="w-48">
                   <ArtistTypeSelect
                     defaultValue={artistType}

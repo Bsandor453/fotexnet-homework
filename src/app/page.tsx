@@ -35,7 +35,7 @@ const contentStyle: React.CSSProperties = {
   paddingBlock: '1.5rem',
   paddingInline: '3rem',
   overflowX: 'hidden',
-  overflowY: 'scroll',
+  overflowY: 'auto',
 };
 
 const footerStyle = (darkMode: boolean): React.CSSProperties => ({

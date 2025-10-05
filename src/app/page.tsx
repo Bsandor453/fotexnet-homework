@@ -6,6 +6,7 @@ import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { fetchArtists } from '@/api/artistsApi';
 import { GetArtistsRequest } from '@/interfaces/request/GetArtistsRequest';
 import { ArtistsResponse } from '@/interfaces/response/ArtistsResponse';
+import ArtistCard from '@/components/ArtistCard';
 
 type Artist = ArtistsResponse;
 
@@ -62,20 +63,24 @@ export default function Home() {
     height: '100%',
   };
 
-  const style: React.CSSProperties = { background: '#0092ff', padding: '8px' };
-
   return (
     <div className="w-full h-full">
       <Layout style={layoutStyle}>
         <Header style={headerStyle}>Header</Header>
         <Content style={contentStyle}>
-          <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-            {artists.map((artist: Artist) => (
-              <Col className="gutter-row" key={artist.id} span={6}>
-                <div style={style}>{artist.name}</div>
-              </Col>
-            ))}
-          </Row>
+          <>
+            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+              {artists.map((artist: Artist) => (
+                <Col className="gutter-row" key={artist.id} span={6}>
+                  <ArtistCard
+                    name={artist.name}
+                    albumCount={artist.albumCount}
+                    portraitUrl={artist.portrait}
+                  />
+                </Col>
+              ))}
+            </Row>
+          </>
         </Content>
         <Footer style={footerStyle}>Footer</Footer>
       </Layout>

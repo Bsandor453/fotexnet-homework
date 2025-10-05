@@ -23,8 +23,6 @@ import Strings from '@/strings/MainStrings';
 import ArtistTypeSelect from '@/components/ArtistTypeSelect';
 import { ArtistType } from '@/interfaces/ArtistType';
 import InitialLetterSelect from '@/components/InitialLetterSelect';
-import { darkTheme } from '@/themes/DarkTheme';
-import { lightTheme } from '@/themes/LightTheme';
 import Image from 'next/image';
 
 type Artist = ArtistsResponse;
@@ -170,7 +168,11 @@ export default function App() {
   };
 
   return (
-    <ConfigProvider theme={darkMode ? darkTheme : lightTheme}>
+    <ConfigProvider
+      theme={{
+        algorithm: darkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+      }}
+    >
       <div className="w-full h-full">
         <Layout style={layoutStyle}>
           <Header style={headerStyle(darkMode)}>
@@ -212,13 +214,7 @@ export default function App() {
                     <Spin size="large" />
                   ) : (
                     <div className="flex flex-col gap-4">
-                      <ConfigProvider
-                        theme={{
-                          algorithm: darkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
-                        }}
-                      >
-                        <Alert message={error} type="error" showIcon />
-                      </ConfigProvider>
+                      <Alert message={error} type="error" showIcon />
                       <Button onClick={handleRetryButtonClick} size="large">
                         {Strings.retry}
                       </Button>

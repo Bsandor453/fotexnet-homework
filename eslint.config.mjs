@@ -19,6 +19,15 @@ const eslintConfig = [
     ignores: ['node_modules/**', '.next/**', 'out/**', 'build/**', 'next-env.d.ts'],
     rules: {
       'prettier/prettier': 'error', // Prettier treats errors as lint errors
+      '@typescript-eslint/no-unused-vars': [
+        // Ignore warnings for unused args, vars and errors starting with '_'
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
     },
   },
 ];

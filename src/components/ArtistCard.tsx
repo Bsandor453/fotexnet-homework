@@ -13,7 +13,16 @@ export default function ArtistCard({ name, albumCount, portraitUrl }: Props) {
   return (
     <Card
       hoverable
-      style={{ width: 240 }}
+      style={{
+        width: 240,
+        transition: 'transform 0.2s ease-in-out',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'scale(1.1)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'scale(1)';
+      }}
       cover={
         <Image
           draggable={false}
@@ -25,7 +34,7 @@ export default function ArtistCard({ name, albumCount, portraitUrl }: Props) {
         />
       }
     >
-      <Meta title={name} description={`Albums: ${albumCount}`} />`
+      <Meta title={name} description={`Albums: ${albumCount}`} />
     </Card>
   );
 }

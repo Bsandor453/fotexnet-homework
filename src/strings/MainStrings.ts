@@ -5,6 +5,7 @@ const MainStrings = {
   initialLetterSelectPlaceholder: 'Select initial letter...',
   searchInputPlaceholder: 'Search artists by name...',
   searchButtonText: 'Search',
+  footerText: 'Created by Sándor Bereczki in 2025 for',
 };
 
 export default MainStrings;

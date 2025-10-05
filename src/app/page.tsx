@@ -14,6 +14,7 @@ import { ArtistType } from '@/interfaces/ArtistType';
 import InitialLetterSelect from '@/components/InitialLetterSelect';
 import { darkTheme } from '@/themes/DarkTheme';
 import { lightTheme } from '@/themes/LightTheme';
+import Image from 'next/image';
 
 type Artist = ArtistsResponse;
 
@@ -217,7 +218,19 @@ export default function App() {
             </>
           </Content>
 
-          <Footer style={footerStyle(darkMode)}>Footer</Footer>
+          <Footer style={footerStyle(darkMode)}>
+            <div className="flex flex-row justify-center items-center gap-2">
+              {Strings.footerText}
+              <Image
+                className="w-14"
+                draggable={false}
+                alt="Fotexnet logo"
+                src="/fotexnet-logo.webp"
+                width={100}
+                height={100}
+              />
+            </div>
+          </Footer>
         </Layout>
       </div>
     </ConfigProvider>

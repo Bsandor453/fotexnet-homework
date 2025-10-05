@@ -1,0 +1,8 @@
+/* Tailwind */
+@import "tailwindcss";
+
+/* Custom globals */
+@import "./globals.css";
+
+/* Ant Design reset */
+@import "antd/dist/reset.css";

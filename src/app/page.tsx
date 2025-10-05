@@ -8,7 +8,9 @@ import { GetArtistsRequest } from '@/interfaces/request/GetArtistsRequest';
 import { ArtistsResponse } from '@/interfaces/response/ArtistsResponse';
 import ArtistCard from '@/components/ArtistCard';
 import { UserOutlined } from '@ant-design/icons';
-import Strings from '@/strings/Strings_en';
+import Strings from '@/strings/MainStrings';
+import ArtistTypeSelect from '@/components/ArtistTypeSelect';
+import { ArtistType } from '@/interfaces/ArtistType';
 
 type Artist = ArtistsResponse;
 
@@ -55,8 +57,9 @@ export default function Home() {
   const [artists, setArtists] = useState<Artist[]>([]);
 
   // Filters
-  const [search, setSearch] = useState<string>('');
+  const [artistType, setArtistType] = useState<ArtistType>();
   const [startsWithLetter, _setStartsWithLetter] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
 
   // Pagination
   const [page, setPage] = useState<number>(1);
@@ -65,18 +68,19 @@ export default function Home() {
 
   const getArtists = useCallback(
     async (params?: {
-      search?: string;
+      artistType?: ArtistType;
       startsWithLetter?: string;
+      search?: string;
       page?: number;
       perPage?: number;
     }) => {
       const config: GetArtistsRequest = {
-        artistType: 'performer',
         includeImage: true,
+        ...(params?.artistType && { artistType: params.artistType }),
+        ...(params?.startsWithLetter && { startsWithLetter: params.startsWithLetter }),
+        ...(params?.search && { search: params.search }),
         ...(params?.page ? { page: params.page } : { page: 1 }),
         ...(params?.perPage && { per_page: params.perPage }),
-        ...(params?.search && { search: params.search }),
-        ...(params?.startsWithLetter && { startsWithLetter: params.startsWithLetter }),
       };
 
       try {
@@ -100,17 +104,21 @@ export default function Home() {
     void getArtists();
   }, [getArtists]);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleArtistTypeSelectChange = (type: ArtistType) => {
+    setArtistType(type);
+  };
+
+  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
 
   const handleSearchButtonClick = () => {
-    void getArtists({ search, startsWithLetter, page, perPage });
+    void getArtists({ artistType, startsWithLetter, search, page, perPage });
   };
 
   const handlePageChange = (newPage: number, _newPageSize: number) => {
     setPage(newPage);
-    void getArtists({ search, startsWithLetter, page: newPage, perPage });
+    void getArtists({ artistType, startsWithLetter, search, page: newPage, perPage });
   };
 
   const handleShowSizeChange = (_current: number, size: number) => {
@@ -121,17 +129,22 @@ export default function Home() {
     <div className="w-full h-full">
       <Layout style={layoutStyle}>
         <Header style={headerStyle}>
-          <section className="flex flex-row" id="filters">
+          <section className="flex flex-row gap-4" id="filters">
+            <div className="w-48">
+              <ArtistTypeSelect onSelectChange={handleArtistTypeSelectChange} />
+            </div>
             <div className="w-64">
               <Input
-                onChange={handleInputChange}
+                onChange={handleSearchInputChange}
                 size="large"
                 placeholder={Strings.searchInputPlaceholder}
                 prefix={<UserOutlined />}
               />
             </div>
-            <div className="w-32">
-              <Button onClick={handleSearchButtonClick}>{Strings.searchButtonText}</Button>
+            <div>
+              <Button onClick={handleSearchButtonClick} size="large">
+                {Strings.searchButtonText}
+              </Button>
             </div>
           </section>
         </Header>

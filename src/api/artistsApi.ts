@@ -34,7 +34,7 @@ export const fetchArtists = async (props: GetArtistsRequest): Promise<GetArtists
     });
     return response.data;
   } catch (error) {
-    console.error('Error fetching users:', error);
+    console.error('Error fetching artists:', error);
     throw error;
   }
 };

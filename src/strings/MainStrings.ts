@@ -6,6 +6,7 @@ const MainStrings = {
   searchInputPlaceholder: 'Search artists by name...',
   searchButtonText: 'Search',
   footerText: 'Created by Sándor Bereczki in 2025 for',
+  retry: 'Retry',
 };
 
 export default MainStrings;

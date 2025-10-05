@@ -1,7 +1,18 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Col, ConfigProvider, Input, Layout, Pagination, Row, Spin } from 'antd';
+import {
+  Alert,
+  Button,
+  Col,
+  ConfigProvider,
+  Input,
+  Layout,
+  Pagination,
+  Row,
+  Spin,
+  theme,
+} from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { fetchArtists } from '@/api/artistsApi';
 import { GetArtistsRequest } from '@/interfaces/request/GetArtistsRequest';
@@ -78,6 +89,7 @@ export default function App() {
 
   // State
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const getArtists = useCallback(
     async (params?: {
@@ -88,6 +100,7 @@ export default function App() {
       perPage?: number;
     }) => {
       setLoading(true);
+      setError(null);
 
       const config: GetArtistsRequest = {
         includeImage: true,
@@ -108,8 +121,10 @@ export default function App() {
         const { pagination } = response;
         setPage(pagination.current_page);
         setTotalItems(pagination.total_items);
-      } catch (error) {
-        console.error('Error setting artist:', error);
+      } catch (error: any) {
+        const errorMessage = error.response.data.message;
+        setError(errorMessage);
+        console.error('Error getting artists:', errorMessage);
       } finally {
         setLoading(false);
       }
@@ -139,6 +154,10 @@ export default function App() {
 
   const handleDarkModeButtonClick = () => {
     setDarkMode((prevState) => !prevState);
+  };
+
+  const handleRetryButtonClick = () => {
+    void getArtists({ artistType, startsWithLetter, search, page, perPage });
   };
 
   const handlePageChange = (newPage: number, _newPageSize: number) => {
@@ -187,9 +206,24 @@ export default function App() {
 
           <Content style={contentStyle}>
             <>
-              {loading ? (
+              {loading || error ? (
                 <div className="w-full h-full flex justify-center items-center">
-                  <Spin size="large" />
+                  {loading ? (
+                    <Spin size="large" />
+                  ) : (
+                    <div className="flex flex-col gap-4">
+                      <ConfigProvider
+                        theme={{
+                          algorithm: darkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
+                        }}
+                      >
+                        <Alert message="Hiba történt!" type="error" showIcon />
+                      </ConfigProvider>
+                      <Button onClick={handleRetryButtonClick} size="large">
+                        {Strings.retry}
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <>

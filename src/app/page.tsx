@@ -21,7 +21,7 @@ type Artist = ArtistsResponse;
 const headerStyle = (darkMode: boolean): React.CSSProperties => ({
   textAlign: 'center',
   height: 64,
-  paddingInline: 48,
+  paddingInline: 64,
   lineHeight: '64px',
   color: '#fff',
   backgroundColor: darkMode ? '#1f1f1f' : '#f5f5f5',
@@ -37,6 +37,7 @@ const contentStyle: React.CSSProperties = {
   paddingInline: '3rem',
   overflowX: 'hidden',
   overflowY: 'auto',
+  scrollbarGutter: 'stable both-edges',
 };
 
 const footerStyle = (darkMode: boolean): React.CSSProperties => ({

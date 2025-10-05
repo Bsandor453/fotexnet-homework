@@ -17,18 +17,16 @@ import { lightTheme } from '@/themes/LightTheme';
 
 type Artist = ArtistsResponse;
 
-const headerStyle = (darkMode: boolean): React.CSSProperties => {
-  return {
-    textAlign: 'center',
-    height: 64,
-    paddingInline: 48,
-    lineHeight: '64px',
-    color: '#fff',
-    backgroundColor: darkMode ? '#1f1f1f' : '#f5f5f5',
-    borderWidth: '0px 0px 1px 0px',
-    borderColor: darkMode ? '#595959' : '#d8d8d8',
-  };
-};
+const headerStyle = (darkMode: boolean): React.CSSProperties => ({
+  textAlign: 'center',
+  height: 64,
+  paddingInline: 48,
+  lineHeight: '64px',
+  color: '#fff',
+  backgroundColor: darkMode ? '#1f1f1f' : '#f5f5f5',
+  borderWidth: '0px 0px 1px 0px',
+  borderColor: darkMode ? '#595959' : '#d8d8d8',
+});
 
 const contentStyle: React.CSSProperties = {
   textAlign: 'center',
@@ -40,15 +38,13 @@ const contentStyle: React.CSSProperties = {
   overflowY: 'scroll',
 };
 
-const footerStyle = (darkMode: boolean): React.CSSProperties => {
-  return {
-    textAlign: 'center',
-    color: darkMode ? '#fff' : '#000',
-    backgroundColor: darkMode ? '#1f1f1f' : '#f5f5f5',
-    borderWidth: '1px 0px 0px 0px',
-    borderColor: darkMode ? '#595959' : '#d8d8d8',
-  };
-};
+const footerStyle = (darkMode: boolean): React.CSSProperties => ({
+  textAlign: 'center',
+  color: darkMode ? '#fff' : '#000',
+  backgroundColor: darkMode ? '#1f1f1f' : '#f5f5f5',
+  borderWidth: '1px 0px 0px 0px',
+  borderColor: darkMode ? '#595959' : '#d8d8d8',
+});
 
 const layoutStyle = {
   width: '100%',
@@ -98,7 +94,7 @@ export default function App() {
       try {
         const response = await fetchArtists(config);
 
-        // Arist data
+        // Artist data
         setArtists(response.data);
 
         // Pagination data
@@ -179,6 +175,7 @@ export default function App() {
               </div>
             </section>
           </Header>
+
           <Content style={contentStyle}>
             <>
               <Row
@@ -205,6 +202,7 @@ export default function App() {
                   </Col>
                 ))}
               </Row>
+
               <div hidden={artists.length === 0}>
                 <Pagination
                   style={paginationStyle}
@@ -218,6 +216,7 @@ export default function App() {
               </div>
             </>
           </Content>
+
           <Footer style={footerStyle(darkMode)}>Footer</Footer>
         </Layout>
       </div>

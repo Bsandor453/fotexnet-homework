@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Col, ConfigProvider, Input, Layout, Pagination, Row } from 'antd';
+import { Button, Col, ConfigProvider, Input, Layout, Pagination, Row, Spin } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { fetchArtists } from '@/api/artistsApi';
 import { GetArtistsRequest } from '@/interfaces/request/GetArtistsRequest';
@@ -76,6 +76,9 @@ export default function App() {
   const [totalItems, setTotalItems] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(50);
 
+  // State
+  const [loading, setLoading] = useState<boolean>(false);
+
   const getArtists = useCallback(
     async (params?: {
       artistType?: ArtistType;
@@ -84,6 +87,8 @@ export default function App() {
       page?: number;
       perPage?: number;
     }) => {
+      setLoading(true);
+
       const config: GetArtistsRequest = {
         includeImage: true,
         ...(params?.artistType && { artistType: params.artistType }),
@@ -105,6 +110,8 @@ export default function App() {
         setTotalItems(pagination.total_items);
       } catch (error) {
         console.error('Error setting artist:', error);
+      } finally {
+        setLoading(false);
       }
     },
     [],
@@ -180,42 +187,49 @@ export default function App() {
 
           <Content style={contentStyle}>
             <>
-              <Row
-                gutter={[
-                  { xs: 28, sm: 32, md: 36, lg: 40 },
-                  { xs: 20, sm: 24, md: 28, lg: 32 },
-                ]}
-                justify="start"
-              >
-                {artists.map((artist: Artist) => (
-                  <Col
-                    className="gutter-row"
-                    key={artist.id}
-                    xs={24} // Extra small screen (e.g. Mobile) -> 1 column
-                    sm={12} // Small screen -> 2 column
-                    md={8} // Medium screen -> 3 column
-                    lg={6} // Large screen (e.g. PC) -> 4 column
+              {loading ? (
+                <div className="w-full h-full flex justify-center items-center">
+                  <Spin size="large" />
+                </div>
+              ) : (
+                <>
+                  <Row
+                    gutter={[
+                      { xs: 28, sm: 32, md: 36, lg: 40 },
+                      { xs: 20, sm: 24, md: 28, lg: 32 },
+                    ]}
+                    justify="start"
                   >
-                    <ArtistCard
-                      name={artist.name}
-                      albumCount={artist.albumCount}
-                      portraitUrl={artist.portrait}
+                    {artists.map((artist: Artist) => (
+                      <Col
+                        className="gutter-row"
+                        key={artist.id}
+                        xs={24} // Extra small screen (e.g. Mobile) -> 1 column
+                        sm={12} // Small screen -> 2 column
+                        md={8} // Medium screen -> 3 column
+                        lg={6} // Large screen (e.g. PC) -> 4 column
+                      >
+                        <ArtistCard
+                          name={artist.name}
+                          albumCount={artist.albumCount}
+                          portraitUrl={artist.portrait}
+                        />
+                      </Col>
+                    ))}
+                  </Row>
+                  <div hidden={artists.length === 0}>
+                    <Pagination
+                      style={paginationStyle}
+                      current={page}
+                      defaultCurrent={1}
+                      total={totalItems}
+                      pageSize={perPage}
+                      onChange={handlePageChange}
+                      onShowSizeChange={handleShowSizeChange}
                     />
-                  </Col>
-                ))}
-              </Row>
-
-              <div hidden={artists.length === 0}>
-                <Pagination
-                  style={paginationStyle}
-                  current={page}
-                  defaultCurrent={1}
-                  total={totalItems}
-                  pageSize={perPage}
-                  onChange={handlePageChange}
-                  onShowSizeChange={handleShowSizeChange}
-                />
-              </div>
+                  </div>
+                </>
+              )}
             </>
           </Content>
 

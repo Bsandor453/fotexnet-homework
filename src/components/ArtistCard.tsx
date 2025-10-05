@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from 'antd';
+import { Card, theme } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import Image from 'next/image';
 
@@ -10,6 +10,8 @@ interface Props {
 }
 
 export default function ArtistCard({ name, albumCount, portraitUrl }: Props) {
+  const { token } = theme.useToken();
+
   return (
     <Card
       hoverable
@@ -20,13 +22,15 @@ export default function ArtistCard({ name, albumCount, portraitUrl }: Props) {
           draggable={false}
           alt={`${name} portrait`}
           src={portraitUrl}
-          width={300}
-          height={200}
-          sizes="(max-width: 768px) 100vw, 400px"
+          width={800}
+          height={600}
         />
       }
     >
-      <Meta title={name} description={`Albums: ${albumCount}`} />
+      <Meta
+        title={name}
+        description={<span style={{ color: token.colorTextSecondary }}>Albums: {albumCount}</span>}
+      />
     </Card>
   );
 }

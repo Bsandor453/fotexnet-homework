@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Col, Input, Layout, Pagination, Row } from 'antd';
+import { Button, Col, ConfigProvider, Input, Layout, Pagination, Row } from 'antd';
 import { Content, Footer, Header } from 'antd/es/layout/layout';
 import { fetchArtists } from '@/api/artistsApi';
 import { GetArtistsRequest } from '@/interfaces/request/GetArtistsRequest';
@@ -12,34 +12,42 @@ import Strings from '@/strings/MainStrings';
 import ArtistTypeSelect from '@/components/ArtistTypeSelect';
 import { ArtistType } from '@/interfaces/ArtistType';
 import InitialLetterSelect from '@/components/InitialLetterSelect';
+import { darkTheme } from '@/themes/DarkTheme';
+import { lightTheme } from '@/themes/LightTheme';
 
 type Artist = ArtistsResponse;
 
-const headerStyle: React.CSSProperties = {
-  textAlign: 'center',
-  color: '#fff',
-  height: 64,
-  paddingInline: 48,
-  lineHeight: '64px',
-  backgroundColor: '#4096ff',
+const headerStyle = (darkMode: boolean): React.CSSProperties => {
+  return {
+    textAlign: 'center',
+    height: 64,
+    paddingInline: 48,
+    lineHeight: '64px',
+    color: '#fff',
+    backgroundColor: darkMode ? '#1f1f1f' : '#f5f5f5',
+    borderWidth: '0px 0px 1px 0px',
+    borderColor: darkMode ? '#595959' : '#d8d8d8',
+  };
 };
 
 const contentStyle: React.CSSProperties = {
   textAlign: 'center',
   minHeight: 120,
   lineHeight: '120px',
-  color: '#fff',
-  backgroundColor: '#0958d9',
   paddingBlock: '1.5rem',
   paddingInline: '3rem',
   overflowX: 'hidden',
   overflowY: 'scroll',
 };
 
-const footerStyle: React.CSSProperties = {
-  textAlign: 'center',
-  color: '#fff',
-  backgroundColor: '#4096ff',
+const footerStyle = (darkMode: boolean): React.CSSProperties => {
+  return {
+    textAlign: 'center',
+    color: darkMode ? '#fff' : '#000',
+    backgroundColor: darkMode ? '#1f1f1f' : '#f5f5f5',
+    borderWidth: '1px 0px 0px 0px',
+    borderColor: darkMode ? '#595959' : '#d8d8d8',
+  };
 };
 
 const layoutStyle = {
@@ -53,7 +61,10 @@ const paginationStyle = {
   marginTop: '2rem',
 };
 
-export default function Home() {
+export default function App() {
+  // Dark mode
+  const [darkMode, setDarkMode] = useState(false);
+
   // Artists data
   const [artists, setArtists] = useState<Artist[]>([]);
 
@@ -121,6 +132,10 @@ export default function Home() {
     void getArtists({ artistType, startsWithLetter, search, page, perPage });
   };
 
+  const handleDarkModeButtonClick = () => {
+    setDarkMode((prevState) => !prevState);
+  };
+
   const handlePageChange = (newPage: number, _newPageSize: number) => {
     setPage(newPage);
     void getArtists({ artistType, startsWithLetter, search, page: newPage, perPage });
@@ -131,64 +146,73 @@ export default function Home() {
   };
 
   return (
-    <div className="w-full h-full">
-      <Layout style={layoutStyle}>
-        <Header style={headerStyle}>
-          <section className="flex flex-row gap-4" id="filters">
-            <div className="w-48">
-              <ArtistTypeSelect onSelectChange={handleArtistTypeSelectChange} />
-            </div>
-            <div className="w-48">
-              <InitialLetterSelect onSelectChange={handleInitialLetterSelectChange} />
-            </div>
-            <div className="w-64">
-              <Input
-                onChange={handleSearchInputChange}
-                size="large"
-                placeholder={Strings.searchInputPlaceholder}
-                prefix={<UserOutlined />}
-              />
-            </div>
-            <div>
-              <Button onClick={handleSearchButtonClick} size="large">
-                {Strings.searchButtonText}
-              </Button>
-            </div>
-          </section>
-        </Header>
-        <Content style={contentStyle}>
-          <>
-            <Row
-              gutter={[
-                { xs: 16, sm: 24, md: 32, lg: 40 },
-                { xs: 8, sm: 12, md: 16, lg: 20 },
-              ]}
-            >
-              {artists.map((artist: Artist) => (
-                <Col className="gutter-row" key={artist.id} span={6}>
-                  <ArtistCard
-                    name={artist.name}
-                    albumCount={artist.albumCount}
-                    portraitUrl={artist.portrait}
+    <ConfigProvider theme={darkMode ? darkTheme : lightTheme}>
+      <div className="w-full h-full">
+        <Layout style={layoutStyle}>
+          <Header style={headerStyle(darkMode)}>
+            <section className="flex flex-row gap-4 justify-between" id="settings">
+              <section className="flex flex-row gap-4" id="filters">
+                <div className="w-48">
+                  <ArtistTypeSelect onSelectChange={handleArtistTypeSelectChange} />
+                </div>
+                <div className="w-48">
+                  <InitialLetterSelect onSelectChange={handleInitialLetterSelectChange} />
+                </div>
+                <div className="w-64">
+                  <Input
+                    onChange={handleSearchInputChange}
+                    size="large"
+                    placeholder={Strings.searchInputPlaceholder}
+                    prefix={<UserOutlined />}
                   />
-                </Col>
-              ))}
-            </Row>
-            <div hidden={artists.length === 0}>
-              <Pagination
-                style={paginationStyle}
-                current={page}
-                defaultCurrent={1}
-                total={totalItems}
-                pageSize={perPage}
-                onChange={handlePageChange}
-                onShowSizeChange={handleShowSizeChange}
-              />
-            </div>
-          </>
-        </Content>
-        <Footer style={footerStyle}>Footer</Footer>
-      </Layout>
-    </div>
+                </div>
+                <div>
+                  <Button onClick={handleSearchButtonClick} size="large">
+                    {Strings.searchButtonText}
+                  </Button>
+                </div>
+              </section>
+              <div>
+                <Button onClick={handleDarkModeButtonClick} size="large">
+                  {darkMode ? Strings.setToLightMode : Strings.setToDarkMode}
+                </Button>
+              </div>
+            </section>
+          </Header>
+          <Content style={contentStyle}>
+            <>
+              <Row
+                gutter={[
+                  { xs: 16, sm: 24, md: 32, lg: 40 },
+                  { xs: 8, sm: 12, md: 16, lg: 20 },
+                ]}
+              >
+                {artists.map((artist: Artist) => (
+                  <Col className="gutter-row" key={artist.id} span={6}>
+                    <ArtistCard
+                      name={artist.name}
+                      albumCount={artist.albumCount}
+                      portraitUrl={artist.portrait}
+                    />
+                  </Col>
+                ))}
+              </Row>
+              <div hidden={artists.length === 0}>
+                <Pagination
+                  style={paginationStyle}
+                  current={page}
+                  defaultCurrent={1}
+                  total={totalItems}
+                  pageSize={perPage}
+                  onChange={handlePageChange}
+                  onShowSizeChange={handleShowSizeChange}
+                />
+              </div>
+            </>
+          </Content>
+          <Footer style={footerStyle(darkMode)}>Footer</Footer>
+        </Layout>
+      </div>
+    </ConfigProvider>
   );
 }

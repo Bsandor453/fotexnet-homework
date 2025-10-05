@@ -5,7 +5,7 @@ import { GetArtistsResponse } from '@/interfaces/response/GetArtistsResponse';
 
 const ARTISTS_ENDPOINT = 'api/artists';
 
-function mapArtistType(type: ArtistType): string {
+function mapArtistType(type?: ArtistType): string | undefined {
   switch (type) {
     case 'composer':
       return 'is_composer';
@@ -14,7 +14,7 @@ function mapArtistType(type: ArtistType): string {
     case 'primary':
       return 'is_primary';
     default:
-      return 'is_performer';
+      return undefined;
   }
 }
 

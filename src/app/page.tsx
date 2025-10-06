@@ -215,19 +215,19 @@ export default function App() {
                 className="flex flex-row flex-wrap items-center gap-x-4 gap-y-2"
                 id="filters"
               >
-                <div className="w-64">
+                <div data-cy="filter-artist-type-select" className="w-64">
                   <ArtistTypeSelect
                     defaultValue={artistType}
                     onSelectChange={handleArtistTypeSelectChange}
                   />
                 </div>
-                <div className="w-64">
+                <div data-cy="filter-initial-letter-select" className="w-64">
                   <InitialLetterSelect
                     defaultValue={startsWithLetter}
                     onSelectChange={handleInitialLetterSelectChange}
                   />
                 </div>
-                <div className="w-64">
+                <div data-cy="filter-search-input" className="w-64">
                   <Input
                     defaultValue={search}
                     onChange={handleSearchInputChange}

@@ -270,7 +270,7 @@ export default function App() {
                   {loading ? (
                     <Spin size="large" />
                   ) : (
-                    <div className="flex flex-col gap-4">
+                    <div data-cy="error-message" className="flex flex-col gap-4">
                       <Alert message={error} type="error" showIcon />
                       <Button onClick={handleRetryButtonClick} size="large">
                         <ReplayIcon fontSize="small" />

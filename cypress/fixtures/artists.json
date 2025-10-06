@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Ludwig van Beethoven",
+      "albumCount": 9,
+      "portrait": "https://picsum.photos/seed/beethoven/500/500"
+    },
+    {
+      "id": 2,
+      "name": "Wolfgang Amadeus Mozart",
+      "albumCount": 12,
+      "portrait": "https://picsum.photos/seed/mozart/500/500"
+    },
+    {
+      "id": 3,
+      "name": "Franz Schubert",
+      "albumCount": 6,
+      "portrait": "https://picsum.photos/seed/schubert/500/500"
+    },
+    {
+      "id": 4,
+      "name": "Johann Sebastian Bach",
+      "albumCount": 15,
+      "portrait": "https://picsum.photos/seed/bach/500/500"
+    }
+  ],
+  "pagination": {
+    "current_page": 1,
+    "total_pages": 1,
+    "per_page": 50,
+    "total_items": 4
+  }
+}

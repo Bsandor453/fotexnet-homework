@@ -237,7 +237,11 @@ export default function App() {
                   />
                 </div>
                 <div>
-                  <Button onClick={handleSearchButtonClick} size="large">
+                  <Button
+                    data-cy="filter-search-button"
+                    onClick={handleSearchButtonClick}
+                    size="large"
+                  >
                     <span className="flex flex-row justify-center items-center gap-2">
                       <SearchIcon fontSize="small" />
                       {MainStrings.searchButtonText}

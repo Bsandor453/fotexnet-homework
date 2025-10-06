@@ -1,11 +1,13 @@
 describe('Basic tests that check page loading', () => {
   beforeEach(() => {
     // Intercept the API that fetches the grid items
-    cy.intercept('GET', 'https://exam.api.fotex.net/api/artists*').as('getArtists');
-    cy.visit('/'); // The baseUrl is set in cypress.config.ts
+    cy.intercept('GET', 'https://exam.api.fotex.net/api/artists*').as('fetchArtists');
+
+    // Visit the page (The baseUrl is set in cypress.config.ts)
+    cy.visit('/');
 
     // Wait for the fetch to complete
-    cy.wait('@getArtists');
+    cy.wait('@fetchArtists');
   });
 
   it('should load the page', () => {

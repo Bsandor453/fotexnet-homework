@@ -42,3 +42,7 @@ next-env.d.ts
 
 # WebStorm / IntelliJ project settings
 .idea/*
+
+# Cypress output
+cypress/screenshots/
+cypress/videos/

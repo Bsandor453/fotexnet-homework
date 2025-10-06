@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fotexnet Job Application Homework
 
-## Getting Started
+This project is a **Client-Side Rendered (CSR) web application** created as part of the **Fotexnet job application
+homework**. It's built with **Next.js**, styled with **Tailwind CSS** and **Ant Design**, and fully tested using
+**Cypress**.
 
-First, run the development server:
+---
+
+## Features
+
+* **CSR Application**: The app is fully client-side rendered for fast and responsive user interactions.
+* **Styling**: Utilizes **Tailwind CSS** for utility-first styling and **Ant Design** for polished UI components.
+* **Testing**: End-to-end tests written with **Cypress** to ensure reliability and correct functionality.
+* **Deployment**: Deployed to **Vercel** for convenience. (Vercel was chosen over AWS Amplify as an extra task.)
+
+---
+
+## Tech Stack
+
+* **Framework**: Next.js
+* **UI Library**: Ant Design
+* **CSS**: Tailwind CSS
+* **Testing**: Cypress
+* **Deployment**: Vercel
+
+---
+
+## Setup & Installation
+
+Follow these steps to get the project running locally:
+
+1. **Clone the repository**:
+
+```bash
+git clone https://github.com/Bsandor453/fotexnet-homework
+cd next_test
+```
+
+2. **Install dependencies**:
+
+```bash
+npm install
+```
+
+3. **Run the development server**:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. **Open the app in your browser**:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Go to [http://localhost:3000](http://localhost:3000) to see it running.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+5. **Run tests with Cypress** (optional but recommended):
 
-## Learn More
+```bash
+npx cypress open
+```
 
-To learn more about Next.js, take a look at the following resources:
+This will open the Cypress test runner where you can run the pre-defined end-to-end tests.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+6. **Build the project for production** (optional):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+```
 
-## Deploy on Vercel
+7. **Start the production server** (optional):
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Your app will now be running in production mode on [http://localhost:3000](http://localhost:3000).
+
+---
+
+## Deployment
+
+The app is deployed on **Vercel**. You can visit it [here](https://fotexnet-homework.vercel.app/).
+
+---
+
+## License
+
+This project is for educational purposes and the job application process. Feel free to explore and learn from it.

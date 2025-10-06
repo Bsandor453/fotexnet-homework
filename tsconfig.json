@@ -20,6 +20,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
+    "allowSyntheticDefaultImports": true,
     "plugins": [
       {
         "name": "next"

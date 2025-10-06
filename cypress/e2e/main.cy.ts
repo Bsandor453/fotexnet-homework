@@ -5,9 +5,6 @@ describe('Basic tests that check page loading', () => {
 
     // Visit the page (The baseUrl is set in cypress.config.ts)
     cy.visit('/');
-
-    // Wait for the fetch to complete
-    cy.wait('@fetchArtists');
   });
 
   it('should load the page', () => {
@@ -26,26 +23,31 @@ describe('Basic tests that check page loading', () => {
     cy.get('footer').should('exist').and('be.visible');
   });
 
-  it('should render grid or show error', () => {
+  it('should render grid or show error based on API response', () => {
     // Check if a grid item exists, but only if there is no error (check for the error message otherwise)
-    cy.get('body').then(($body) => {
-      if ($body.find('.ant-row .ant-col').length > 0) {
+    cy.wait('@fetchArtists').then((interception) => {
+      const statusCode = interception.response?.statusCode;
+
+      if (statusCode && statusCode >= 200 && statusCode < 300) {
+        // Successful API response -> check grid
         cy.get('.ant-row .ant-col').should('have.length.greaterThan', 0);
       } else {
+        // Failed API response -> show error message
         cy.get('[data-cy=error-message]').should('exist').and('be.visible');
       }
     });
   });
 
-  it('should have all 3 filter controls and the search button', () => {
-    // Checks for the presence of the filter controls
+  it('should have all filter controls and the search button', () => {
     cy.get('#filters [data-cy^=filter]').should('have.length', 4);
   });
 
-  it('should render pagination if the grid is present or show error', () => {
+  it('should render pagination if grid is present or show error', () => {
     // Check if the pagination exists, but only if there is no error (check for the error message otherwise)
-    cy.get('body').then(($body) => {
-      if ($body.find('.ant-row .ant-col').length > 0) {
+    cy.wait('@fetchArtists').then((interception) => {
+      const statusCode = interception.response?.statusCode;
+
+      if (statusCode && statusCode >= 200 && statusCode < 300) {
         cy.get('ul.ant-pagination').should('exist');
       } else {
         cy.get('[data-cy=error-message]').should('exist').and('be.visible');

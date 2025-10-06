@@ -215,19 +215,19 @@ export default function App() {
                 className="flex flex-row flex-wrap items-center gap-x-4 gap-y-2"
                 id="filters"
               >
-                <div data-cy="filter-artist-type-select" className="w-64">
+                <div data-cy="filter-artist-type-select" className="w-64 hidden sm:block">
                   <ArtistTypeSelect
                     defaultValue={artistType}
                     onSelectChange={handleArtistTypeSelectChange}
                   />
                 </div>
-                <div data-cy="filter-initial-letter-select" className="w-64">
+                <div data-cy="filter-initial-letter-select" className="w-64 hidden sm:block">
                   <InitialLetterSelect
                     defaultValue={startsWithLetter}
                     onSelectChange={handleInitialLetterSelectChange}
                   />
                 </div>
-                <div data-cy="filter-search-input" className="w-64">
+                <div data-cy="filter-search-input" className="w-56">
                   <Input
                     defaultValue={search}
                     onChange={handleSearchInputChange}
@@ -249,7 +249,7 @@ export default function App() {
                   </Button>
                 </div>
               </section>
-              <div>
+              <div className="hidden sm:block">
                 <Button onClick={handleDarkModeButtonClick} size="large">
                   {darkMode ? (
                     <span className="flex flex-row justify-center items-center gap-2">

@@ -37,9 +37,9 @@ describe('Basic tests that check page loading', () => {
     });
   });
 
-  it('should have all 3 filter controls', () => {
+  it('should have all 3 filter controls and the search button', () => {
     // Checks for the presence of the filter controls
-    cy.get('[data-cy^=filter]').should('have.length', 3);
+    cy.get('#filters [data-cy^=filter]').should('have.length', 4);
   });
 
   it('should render pagination if the grid is present or show error', () => {

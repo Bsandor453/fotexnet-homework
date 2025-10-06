@@ -22,8 +22,8 @@ describe('Filters functional tests', () => {
     });
   };
 
-  it('loads all 3 filter controls', () => {
-    cy.get('[data-cy^=filter]').should('have.length.at.least', 3);
+  it('loads all 3 filter controls and the search button', () => {
+    cy.get('[data-cy^=filter]').should('have.length', 4);
     assertGridOrError();
   });
 
